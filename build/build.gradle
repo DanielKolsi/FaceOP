@@ -1,24 +1,67 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+//http://stackoverflow.com/questions/37360126/getting-exception-java-lang-noclassdeffounderror-com-google-firebase-firebaseop/38224316#38224316
+apply plugin: 'com.android.application'
 
-buildscript {
-    repositories {
-        jcenter()
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25"
+
+    defaultConfig {
+        applicationId "com.faceop.faceop"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 27
+        versionName "1.08"
+        multiDexEnabled true
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/LICENSE-FIREBASE_jvm.txt'
+    }
 
-        classpath 'com.google.gms:google-services:3.0.0'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    buildTypes {
+        debug {
+            //debuggable true
+            debuggable false
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-    }
+repositories {
+    mavenCentral()
 }
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    //compile 'com.android.support:appcompat-v7:25.3.1'
+    //compile 'com.android.support:design:25.3.1'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.google.firebase:firebase-core:10.2.4'
+    compile 'com.google.firebase:firebase-messaging:10.2.4'
+    compile 'com.google.firebase:firebase-appindexing:10.2.4'
+
+//    compile 'com.android.support:multidex:1.0.1' // TODO, IS THIS NECESSARY?
+    //https://firebase.google.com/docs/app-indexing/android/app
+    //https://developers.google.com/android/guides/setup
+    // Firebase Client
+    compile "com.google.firebase:firebase-database:10.2.4"
+
+    compile 'com.google.android.gms:play-services-maps:10.2.4'
+    compile 'com.google.android.gms:play-services-location:10.2.4'
+    compile 'com.google.android.gms:play-services-auth:10.2.4'
+    //compile 'com.google.android.gms:play-services-appindexing:10.2.4'
+    compile 'com.google.android.gms:play-services-analytics:10.2.4'
+    compile 'com.google.android.gms:play-services-places:10.2.4'
+
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
 }
+apply plugin: 'com.google.gms.google-services'
