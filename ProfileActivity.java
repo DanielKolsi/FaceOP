@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -295,11 +294,6 @@ public class ProfileActivity extends AppCompatActivity {
             feedBackTextView.setTextColor(Color.RED);
             feedBackTextView.setText((getString(R.string.notEnoughParticipants) + userList.size() + ")"));
         }
-
-        if (userList.size() < Meeting.MIN_MATCHED_PARTICIPANTS) {  // meeting not accepted
-            feedBackTextView.setTextColor(Color.RED);
-            feedBackTextView.setText((getString(R.string.notEnoughParticipants) + userList.size() + ")"));
-        }
     }
 
     /**
@@ -548,7 +542,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         protected String doInBackground(String... args) {
 
-            Log.d("DEL", "DELMEX2=" + meeting.getName());
+            //Log.d("DEL", "DELMEX2=" + meeting.getName());
             List<NameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair(Resources.TAG_MEETING_NAME, meeting.getName()));
             jsonParser.makeHttpRequest(url_delete_meeting, "POST", params);
@@ -581,6 +575,7 @@ public class ProfileActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+                    if (userList.size() < Meeting.MIN_MATCHED_PARTICIPANTS) return null; // TODO
 
                     Iterator<User> iterator = userList.iterator();
 
